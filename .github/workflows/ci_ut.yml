@@ -35,7 +35,7 @@ jobs:
       - name: Run SonarCloud analysis
         run: >
              mvn clean --batch-mode
-             sonar:sonar
+             org.sonarsource.scanner.maven:sonar
              -Dsonar.host.url=https://sonarcloud.io
              -Dsonar.organization=apache
              -Dsonar.projectKey=apache-dolphinscheduler
