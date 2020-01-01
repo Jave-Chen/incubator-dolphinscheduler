@@ -35,6 +35,7 @@ jobs:
       - name: Run SonarCloud analysis
         run: >
              mvn clean --batch-mode
+             verify
              org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.1.1688:sonar
              -Dsonar.host.url=https://sonarcloud.io
              -Dsonar.organization=apache
