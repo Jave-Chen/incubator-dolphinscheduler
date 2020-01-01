@@ -1,0 +1,38 @@
+on: [push, "pull_request"]
+env:
+  DOCKER_DIR: ./docker
+  LOG_DIR: /tmp/dolphinscheduler
+
+name: SonarCloud Analysis
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - uses: actions/cache@v1
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: mvn install
+        run: |
+          mvn clean install
+      - name: Run SonarCloud analysis
+        run: >
+             mvn clean verify --batch-mode
+             org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.1.1688:sonar
+             -Dsonar.host.url=https://sonarcloud.io
+             -Dsonar.organization=8k4b4yu8zj93gjyq
+             -Dsonar.projectKey=dolphinscheduler
+        env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
