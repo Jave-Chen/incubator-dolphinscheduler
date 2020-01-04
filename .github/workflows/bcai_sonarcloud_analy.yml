@@ -3,7 +3,7 @@ env:
   DOCKER_DIR: ./docker
   LOG_DIR: /tmp/dolphinscheduler
 
-name: SonarCloud Analysis
+name: QA Analysis
 
 jobs:
   build:
