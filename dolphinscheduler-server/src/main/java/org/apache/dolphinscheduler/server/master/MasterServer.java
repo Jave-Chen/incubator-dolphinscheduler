@@ -16,6 +16,12 @@
  */
 package org.apache.dolphinscheduler.server.master;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.IStoppable;
@@ -37,11 +43,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
-
-import javax.annotation.PostConstruct;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * master server
@@ -176,14 +177,12 @@ public class MasterServer implements IStoppable {
 
             logger.info("master server is stopping ..., cause : {}", cause);
 
-            // set stop signal is true
-            Stopper.stop();
+            while (!Stopper.isStoped()) {
+                // set stop signal is true
+                Stopper.stop();
 
-            try {
                 //thread sleep 3 seconds for thread quitely stop
-                Thread.sleep(3000L);
-            }catch (Exception e){
-                logger.warn("thread sleep exception:" + e.getMessage(), e);
+                wait(3000L);
             }
             try {
                 heartbeatMasterService.shutdownNow();
@@ -231,6 +230,7 @@ public class MasterServer implements IStoppable {
             logger.error("master server stop exception : " + e.getMessage(), e);
             System.exit(-1);
         }
+        notifyAll();
     }
 
 
