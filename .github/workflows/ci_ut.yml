@@ -74,7 +74,7 @@ jobs:
           docker-compose logs db > ${LOG_DIR}/db.txt
         continue-on-error: true
 
- CI-on-Windows:
+  CI-on-Windows:
     runs-on: Windows-latest
     timeout-minutes: 180
     strategy:
