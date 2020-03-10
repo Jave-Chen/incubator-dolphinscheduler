@@ -63,10 +63,8 @@ jobs:
           -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
           -Dmaven.test.skip=true
           -Dsonar.host.url=https://sonarcloud.io
-          -Dsonar.organization=apache
-          -Dsonar.core.codeCoveragePlugin=jacoco
-          -Dsonar.projectKey=apache-dolphinscheduler
-          -Dsonar.login=e4058004bc6be89decf558ac819aa1ecbee57682
+          -Dsonar.organization=8k4b4yu8zj93gjyq
+          -Dsonar.projectKey=dolphinscheduler
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
