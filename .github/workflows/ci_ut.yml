@@ -20,7 +20,7 @@ env:
   DOCKER_DIR: ./docker
   LOG_DIR: /tmp/dolphinscheduler
 
-name: Test Coveralls Parallel
+name: Unit Test
 
 jobs:
 
@@ -29,9 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v1
-        with:
-          submodules: true
+      - uses: actions/checkout@v2
+      # In the checkout@v2, it doesn't support git submodule. Execute the commands manually.
+      - name: checkout submodules
+        shell: bash
+        run: |
+          git submodule sync --recursive
+          git -c protocol.version=2 submodule update --init --force --recursive --depth=1
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
@@ -47,13 +51,14 @@ jobs:
       - name: Compile
         run: |
           export MAVEN_OPTS='-Dmaven.repo.local=.m2/repository -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:-UseGCOverheadLimit -Xmx3g'
-          mvn test -Dmaven.test.skip=false cobertura:cobertura
+          mvn test -B -Dmaven.test.skip=false
           CODECOV_TOKEN="09c2663f-b091-4258-8a47-c981827eb29a" bash <(curl -s https://codecov.io/bash)
-      - name: Run SonarCloud analysis
+      - name: Run SonarCloud Analysis
         run: >
-          mvn clean --batch-mode
-          verify
-          org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.1.1688:sonar 
+          mvn verify --batch-mode
+          org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.1.1688:sonar
+          -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+          -Dmaven.test.skip=true
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=8k4b4yu8zj93gjyq
           -Dsonar.projectKey=dolphinscheduler

@@ -16,9 +16,7 @@
  */
 package org.apache.dolphinscheduler.api.utils;
 
-import java.util.Scanner;
-
-import org.apache.commons.lang3.StringUtils;
+import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +53,8 @@ public class ZooKeeperState {
 	public void getZookeeperInfo() {
 		String content = cmd("srvr");
 		if (StringUtils.isNotBlank(content)) {
-			Scanner scannerForStat = new Scanner(content);
-			try {
+			try (Scanner scannerForStat = new Scanner(content))  {
+
 				while (scannerForStat.hasNext()) {
 					String line = scannerForStat.nextLine();
 					if (line.startsWith("Latency min/avg/max:")) {
@@ -78,23 +76,19 @@ public class ZooKeeperState {
 						nodeCount = Integer.parseInt(getStringValueFromLine(line));
 					}
 				}
-			} finally {
-				scannerForStat.close();
-			}	
+			} 	
+
 		}
 
 		String wchsText = cmd("wchs");
 		if (StringUtils.isNotBlank(wchsText)) {
-			Scanner scannerForWchs = new Scanner(wchsText);
-			try {
+			try (Scanner scannerForWchs = new Scanner(wchsText)) {
 				while (scannerForWchs.hasNext()) {
 					String line = scannerForWchs.nextLine();
 					if (line.startsWith("Total watches:")) {
 						watches = Integer.parseInt(getStringValueFromLine(line));
 					}
 				}
-			} finally {
-				scannerForWchs.close();
 			}	
 		}
 
@@ -151,7 +145,7 @@ public class ZooKeeperState {
 		sendThread.setName("FourLetterCmd:" + cmd);
 		sendThread.start();
 		try {
-			sendThread.join(waitTimeout * 1000);
+			sendThread.join(waitTimeout * 1000L);
 			return sendThread.ret;
 		} catch (InterruptedException e) {
 			logger.error("send " + cmd + " to server " + host + ":" + port + " failed!", e);

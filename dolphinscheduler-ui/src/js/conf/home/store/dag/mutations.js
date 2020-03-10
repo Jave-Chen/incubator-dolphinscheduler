@@ -125,12 +125,30 @@ export default {
     } else {
       state.tasks.push(payload)
     }
+    if (state.cacheTasks[payload.id]) {
+      state.cacheTasks[payload.id] = Object.assign(state.cacheTasks[payload.id], {}, payload)
+    } else {
+      state.cacheTasks[payload.id] = payload;
+    }
     let dom = $(`#${payload.id}`)
     state.locations[payload.id] = _.assign(state.locations[payload.id], {
       name: dom.find('.name-p').text(),
       targetarr: dom.attr('data-targetarr'),
+      nodenumber: dom.attr('data-nodenumber'),
       x: parseInt(dom.css('left'), 10),
       y: parseInt(dom.css('top'), 10)
     })
+  },
+  /**
+   * Cache the input
+   * @param state
+   * @param payload
+   */
+  cacheTasks (state, payload) {
+    if (state.cacheTasks[payload.id]) {
+      state.cacheTasks[payload.id] = Object.assign(state.cacheTasks[payload.id], {}, payload)
+    } else {
+      state.cacheTasks[payload.id] = payload;
+    }
   }
 }
