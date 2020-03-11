@@ -20,6 +20,8 @@ import org.apache.dolphinscheduler.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Scanner;
+
 /**
  *	zookeeper state monitor
  *
