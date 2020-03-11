@@ -59,8 +59,6 @@ jobs:
       - name: Git fetch unshallow
         run: |
           git fetch --unshallow
-          git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-          git fetch origin 
       - name: Run SonarCloud Analysis
         run: >
           mvn verify --batch-mode
