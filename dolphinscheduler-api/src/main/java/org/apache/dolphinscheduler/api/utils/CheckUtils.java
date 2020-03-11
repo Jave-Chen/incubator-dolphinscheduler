@@ -159,5 +159,6 @@ public class CheckUtils {
   
   private void justTest() {
     final String test = "123";
+    final String moreTest = "test file change";
   }
 }
