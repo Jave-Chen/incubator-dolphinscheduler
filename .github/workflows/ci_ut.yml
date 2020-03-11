@@ -38,7 +38,7 @@ jobs:
           git -c protocol.version=2 submodule update --init --force --recursive --depth=1
           git fetch --unshallow
           git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-          git fetch origin
+          git fetch origin 
       - uses: actions/cache@v1
         with:
           path: ~/.m2/repository
