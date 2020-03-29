@@ -19,9 +19,9 @@ package org.apache.dolphinscheduler.server.zk;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 import org.apache.dolphinscheduler.common.Constants;
 import org.apache.dolphinscheduler.common.enums.ZKNodeType;
-import org.apache.dolphinscheduler.common.zk.AbstractZKClient;
 import org.apache.commons.lang.StringUtils;
 import org.apache.curator.framework.CuratorFramework;
+import org.apache.dolphinscheduler.service.zk.AbstractZKClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -51,6 +51,7 @@ public class ZKWorkerClient extends AbstractZKClient {
 	 */
 	public void init(){
 
+		logger.info("initialize worker client...");
 		// init system znode
 		this.initSystemZNode();
 
@@ -69,7 +70,7 @@ public class ZKWorkerClient extends AbstractZKClient {
 			}
 			workerZNode = serverPath;
 		} catch (Exception e) {
-			logger.error("register worker failure : "  + e.getMessage(),e);
+			logger.error("register worker failure",e);
 			System.exit(-1);
 		}
 	}
