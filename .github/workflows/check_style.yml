@@ -1,4 +1,4 @@
-on: pull_request
+on: [push, pull_request]
 
 jobs:
   checkstyle_job:
@@ -8,9 +8,9 @@ jobs:
     - name: Checkout
       run: |
         wget -O - -q https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.22/checkstyle-8.22-all.jar > /opt/checkstyle.jar
-        wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b /usr/local/bin/ ${REVIEWDOG_VERSION}
+        wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b /opt ${REVIEWDOG_VERSION}
         java -jar /opt/checkstyle.jar "${WORKDIR}" -c "${CHECKSTYLE_CONFIG}"  -f xml \
-             | reviewdog -f=checkstyle \
+             | /opt/reviewdog -f=checkstyle \
                   -reporter="${INPUT_REPORTER:-github-pr-check}" \
                   -filter-mode="${INPUT_FILTER_MODE:-added}" \
                   -fail-on-error="${INPUT_FAIL_ON_ERROR:-false}" \
