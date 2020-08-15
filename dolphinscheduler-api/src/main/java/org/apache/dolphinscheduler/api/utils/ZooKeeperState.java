@@ -56,6 +56,7 @@ public class ZooKeeperState {
 		String content = cmd("srvr");
 		if (StringUtils.isNotBlank(content)) {
 			try (Scanner scannerForStat = new Scanner(content))  {
+
 				while (scannerForStat.hasNext()) {
 					String line = scannerForStat.nextLine();
 					if (line.startsWith("Latency min/avg/max:")) {
@@ -78,6 +79,7 @@ public class ZooKeeperState {
 					}
 				}
 			} 	
+
 		}
 
 		String wchsText = cmd("wchs");
