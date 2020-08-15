@@ -223,6 +223,7 @@ public class CheckUtilsTest {
     @Test
     public void check_style_test() {
             System.out.println("check style test");
+                System.out.println("check style test");
     }
 
 }
