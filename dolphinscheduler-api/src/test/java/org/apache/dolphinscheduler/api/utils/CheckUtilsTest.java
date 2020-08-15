@@ -42,6 +42,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+import java.util.*;
+
 import static org.junit.Assert.*;
 
 public class CheckUtilsTest {
@@ -221,7 +223,8 @@ public class CheckUtilsTest {
     }
 
     @Test
-    public void check_style_test() {
+    public void check_style_test(){
+        String test="style_test"; 
             System.out.println("check style test");
                 System.out.println("check style test");
     }
