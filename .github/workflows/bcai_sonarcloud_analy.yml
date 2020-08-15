@@ -21,7 +21,7 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Check code style
         run: |
-          mvn clean install
+          mvn clean install -Dmaven.test.skip=true
           mvn checkstyle:checkstyle -Dcheckstyle.config.location=./style/checkstyle.xml
       # Set up JDK 11 for SonarCloud.
       - name: Set up JDK 1.11
