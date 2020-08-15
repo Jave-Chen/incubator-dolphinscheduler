@@ -13,7 +13,7 @@ jobs:
         wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b /opt ${REVIEWDOG_VERSION}
         pwd
         ls -l /opt/reviewdog
-        java -jar /opt/checkstyle.jar "${WORKDIR}" -c "${CHECKSTYLE_CONFIG}"  -f xml \
+        java -jar /opt/checkstyle.jar "./" -c "style/checkstyle.xml"  -f xml \
              | /opt/reviewdog -f=checkstyle \
                   -reporter="${INPUT_REPORTER:-github-pr-check}" \
                   -filter-mode="${INPUT_FILTER_MODE:-added}" \
