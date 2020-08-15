@@ -18,4 +18,5 @@ jobs:
         workdir: ./
         reviewdog_github_api_token: ${{ secrets.GITHUB_TOKEN }}
         checkstyle_config: style/checkstyle.xml
+        reviewdog_version: v0.10.0
         reporter: 'github-pr-check'
