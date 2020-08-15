@@ -12,7 +12,7 @@ jobs:
         wget -O - -q https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.22/checkstyle-8.22-all.jar > /opt/checkstyle.jar
         wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b /opt ${REVIEWDOG_VERSION}
         pwd
-        ls -l /opt/reviewdo
+        ls -l /opt/reviewdog
         java -jar /opt/checkstyle.jar "${WORKDIR}" -c "${CHECKSTYLE_CONFIG}"  -f xml \
              | /opt/reviewdog -f=checkstyle \
                   -reporter="${INPUT_REPORTER:-github-pr-check}" \
