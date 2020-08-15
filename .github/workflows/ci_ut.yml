@@ -59,7 +59,10 @@ jobs:
       - name: Git fetch unshallow
         run: |
           git fetch --unshallow
+          git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+          git fetch origin 
       - name: Run SonarCloud Analysis
+        # test
         run: >
           mvn verify --batch-mode
           org.sonarsource.scanner.maven:sonar-maven-plugin:3.6.1.1688:sonar
