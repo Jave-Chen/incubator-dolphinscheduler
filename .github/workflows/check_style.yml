@@ -6,10 +6,16 @@ jobs:
     name: Checkstyle job
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
-    - name: Run check style
-      uses: nikitasavinov/checkstyle-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        wget -O - -q https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.22/checkstyle-8.22-all.jar > /opt/checkstyle.jar
+        wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh| sh -s -- -b /usr/local/bin/ ${REVIEWDOG_VERSION}
+        java -jar /opt/checkstyle.jar "${WORKDIR}" -c "${CHECKSTYLE_CONFIG}"  -f xml \
+             | reviewdog -f=checkstyle \
+                  -reporter="${INPUT_REPORTER:-github-pr-check}" \
+                  -filter-mode="${INPUT_FILTER_MODE:-added}" \
+                  -fail-on-error="${INPUT_FAIL_ON_ERROR:-false}" \
+      env:
+        workdir: ./
+        reviewdog_github_api_token: ${{ secrets.GITHUB_TOKEN }}
         checkstyle_config: style/checkstyle.xml
         reporter: 'github-pr-check'
