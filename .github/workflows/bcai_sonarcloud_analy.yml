@@ -37,7 +37,7 @@ jobs:
           -Dsonar.core.codeCoveragePlugin=jacoco
           -Dsonar.organization=8k4b4yu8zj93gjyq
           -Dsonar.projectKey=dolphinscheduler
-          -Dsonar.login=4b0e0f21a3f1663f5b190305c7435d28363ffa2f 
+          -Dsonar.login=fe66843cea1622fed6043cf3220ee756f3d8c11c 
           -Dsonar.exclusions=dolphinscheduler-ui/src/**/i18n/locale/*.js,dolphinscheduler-microbench/src/**/*
           -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
         env:
