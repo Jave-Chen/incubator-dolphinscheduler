@@ -110,11 +110,10 @@ jobs:
           git -c protocol.version=2 submodule update --init --force --recursive --depth=1
       - name: check code style
         env:
-          workdir: ./
+          WORKDIR: ./
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          checkstyle_config: style/checkstyle.xml
-          reviewdog_version: v0.10.2
-          reporter: 'github-pr-check'
+          CHECKSTYLE_CONFIG: style/checkstyle.xml
+          REVIEWDOG_VERSION: v0.10.2
         run: |
           wget -O - -q https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.22/checkstyle-8.22-all.jar > /opt/checkstyle.jar
           wget -O - -q https://raw.githubusercontent.com/reviewdog/reviewdog/master/install.sh | sh -s -- -b /opt ${REVIEWDOG_VERSION}
