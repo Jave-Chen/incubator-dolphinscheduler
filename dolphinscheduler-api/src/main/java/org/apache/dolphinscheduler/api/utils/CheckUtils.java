@@ -156,4 +156,9 @@ public class CheckUtils {
 
     return pattern.matcher(str).matches();
   }
+  
+  private void justTest() {
+    final String test = "123";
+    final String moreTest = "test file change";
+  }
 }
