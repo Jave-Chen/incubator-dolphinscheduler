@@ -83,11 +83,23 @@ public class AccessTokenController extends BaseController {
                               @RequestParam(value = "userId") int userId,
                               @RequestParam(value = "expireTime") String expireTime,
                               @RequestParam(value = "token") String token) {
-        logger.info("login user {}, create token , userId : {} , token expire time : {} , token : {}", loginUser.getUserName(),
-                userId, expireTime, token);
+
+        String userNameReplaced = replacePatternBreakingCharacters(loginUser.getUserName());
+        String expireTimeReplaced = replacePatternBreakingCharacters(expireTime);
+        String tokenReplaced = replacePatternBreakingCharacters(token);
+
+        logger.info("login user {}, create token , userId : {} , token expire time : {} , token : {}",
+                userNameReplaced,
+                userId,
+                expireTimeReplaced,
+                tokenReplaced);
 
         Map<String, Object> result = accessTokenService.createToken(userId, expireTime, token);
         return returnDataList(result);
+    }
+
+    private String replacePatternBreakingCharacters(String userInputString) {
+        return userInputString.replaceAll("[\n|\r|\t]", "_");
     }
 
     /**
